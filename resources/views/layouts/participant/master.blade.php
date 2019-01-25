@@ -42,7 +42,7 @@ desired effect
 |               | skin-green                              |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-purple sidebar-mini">
+<body class="hold-transition skin-green sidebar-mini">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -53,7 +53,7 @@ desired effect
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>AGM</b></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg">AGM Thessaloniki</span>
+            <span class="logo-lg">AGM Extra Package </span>
         </a>
 
         <!-- Header Navbar -->

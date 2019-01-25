@@ -94,7 +94,7 @@ class ParticipantController extends Controller
         if (isset($token)) {
 
             //Format desc
-            $description = $user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
+            $description = 'Extra: '.$user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
 
             $payment = Payment::create(array(
                 "amount" => 22200, //Amount in cents
@@ -185,7 +185,7 @@ class ParticipantController extends Controller
         if (isset($token)) {
 
             //Format desc
-            $description = 'Deposit--'.$user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
+            $description = 'Extra: Deposit--'.$user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
 
             $payment = Payment::create(array(
                 "amount" => 5000, //Amount in cents
