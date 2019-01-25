@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h4>Approved ESNers: <a class="btn btn-warning" href="{{route('oc.approved.sync')}}">ERS <i class="fa fa-refresh"></i></a></h4>
+        <h4>Approved ESNers:</h4>
         <div class="box-body" style="background: white">
             <table id="example2" class="table table-bordered table-hover">
                 <thead>
