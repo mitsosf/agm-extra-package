@@ -82,10 +82,7 @@ desired effect
               </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{route('oc.cashflow')}}"><i class="fa fa-eur"></i> <span>All income</span></a></li>
-                        <li><a href="{{route('oc.cashflow.card')}}"><i class="fa fa-credit-card"></i> <span>Card income</span></a></li>
-                        <li><a href="{{route('oc.cashflow.bank')}}"><i class="fa fa-bank"></i> <span>Bank income - plemb</span></a></li>
-                        <li><a href="{{route('oc.cashflow.debts')}}"><i class="fa fa-gavel"></i> <span>Debts</span></a></li>
+                        <li><a href="{{route('oc.cashflow')}}"><i class="fa fa-eur"></i> <span>Income</span></a></li>
                         <li><a href="{{route('oc.cashflow.deposits')}}"><i class="fa fa-download"></i> <span>Deposits</span></a></li>
                     </ul>
                 </li>
@@ -108,17 +105,6 @@ desired effect
                         @else
                             <li><a href="#"><span>No available hotels</span></a></li>
                         @endif
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-gears"></i> <span>CRUD</span>
-                        <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="{{route('oc.crud.hotels')}}"><i class="fa fa-gear"></i> <span>Hotels</span></a></li>
-                        <li><a href="{{route('oc.crud.rooms')}}"><i class="fa fa-gear"></i> <span>Rooms</span></a></li>
                     </ul>
                 </li>
                 <li><a href="{{route('oc.logout')}}"><i class="fa fa-power-off"></i> <span>Logout</span></a></li>
