@@ -103,7 +103,7 @@
                 'autoWidth': true
             })
         }));
-        
+
         $(document).ready($(function focusOnSearch() {
             $('div.dataTables_filter input').focus();
         }));

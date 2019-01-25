@@ -72,7 +72,7 @@ class ParticipantController extends Controller
                 return redirect(route('participant.charge'));
             } else {
                 //If we don't receive the token_details
-                $error = "An error has occurred, please try again (Error 100)";
+                $error = $token->details;
                 return view('participants.payment', compact('error', 'user'));
             }
         }
