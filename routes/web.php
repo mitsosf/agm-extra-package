@@ -51,7 +51,6 @@ Route::get('/account/logout', 'ParticipantController@logout')->name('participant
 //OC
 Route::get('/oc', 'OCController@index')->name('oc.home');
 Route::get('/oc/approved', 'OCController@approved')->name('oc.approved');
-Route::get('/oc/approved/sync', 'OCController@approvedSync')->name('oc.approved.sync');
 Route::get('/oc/cashflow', 'OCController@cashflow')->name('oc.cashflow');
 //Maybe
 Route::get('/oc/cashflow/deposits', 'OCController@cashflowDeposits')->name('oc.cashflow.deposits');
