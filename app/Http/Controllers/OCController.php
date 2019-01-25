@@ -75,7 +75,7 @@ class OCController extends Controller
 
 
         $card_deposits = Transaction::where('type', 'deposit')->where('comments', 'card')->get();
-        return view('oc.cashflow', compact('deposits', 'deposit_amount', 'deposit_count', 'card_deposits'));
+        return view('oc.cashflowDeposits', compact('deposits', 'deposit_amount', 'deposit_count', 'card_deposits'));
     }
 
     public function acquireDeposit(Transaction $transaction)
