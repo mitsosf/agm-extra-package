@@ -10,7 +10,7 @@
                     <div class="inner">
                         <h3>{{$approvedUsers}}</h3>
 
-                        <p>Assigned spots ({{($approvedUsers/$totalUsers)*100}}%)</p>
+                        <p>Paid spots ({{($approvedUsers/$totalUsers)*100}}%)</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-users"></i>
@@ -25,7 +25,7 @@
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3>{{$funds}} €</h3>
-                        <p> </p>
+                        <p>Wow, we're rich</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-eur"></i>
