@@ -39,7 +39,7 @@
                 </div>
             </a>
         </div>
-        @if(env('EVENT_DEPOSITS',0))
+        @if(env('EVENT_DEPOSITS',0) == 1)
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <!-- small box -->
                 <a href="{{route('participant.deposit')}}">

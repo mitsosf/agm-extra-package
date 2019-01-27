@@ -118,17 +118,15 @@ class ParticipantController extends Controller
                 $user->spot_status = 'paid';
                 $user->update();
 
+
                 //Generate PDF invoice, send it to the user and update DB
 
                 //Generate PDF
                 $pdf = App::make('dompdf.wrapper');
                 $invID = Invoice::all()->count() + 1;
                 $pdf->loadHTML(view('mails.paymentConfirmation', compact('user', 'invID')));
-
                 //Save invoice locally
                 $path = 'invoices/' . $invID . $user->name . $user->surname . $user->esn_country . 'Fee.pdf';
-                $pdf->save(env('APPLICATION_DEPLOYMENT_PATH_PUBLIC') . $path);
-
 
                 //Save the whole transaction to the database
                 //Create transaction
@@ -148,6 +146,7 @@ class ParticipantController extends Controller
                 $invoice->transaction()->associate($transaction);
                 $invoice->save();
 
+                $pdf->save(env('APPLICATION_DEPLOYMENT_PATH_PUBLIC') . $path);
                 //Send invoice to participant
                 Mail::to($user->email)->send(new PaymentConfirmation($user, env('APPLICATION_DEPLOYMENT_PATH_PUBLIC') . $path));
 

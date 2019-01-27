@@ -18,7 +18,9 @@ class RegistrationController extends Controller
         $this->validate($request, [
             'document' => 'required',
             'phone' => 'required',
-            'tshirt' => 'required'
+            'tshirt' => 'required',
+            'consent' => 'required',
+            'gdpr' => 'required'
         ]);
 
         $user = Auth::user();

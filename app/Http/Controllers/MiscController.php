@@ -10,4 +10,9 @@ class MiscController extends Controller
     {
         return view('misc.terms');
     }
+
+    public function eventterms()
+    {
+        return view('misc.eventTerms');
+    }
 }

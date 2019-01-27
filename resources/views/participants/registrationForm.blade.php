@@ -28,7 +28,6 @@
                     </div>
 
 
-
                     <label for="tshirt">T-Shirt size:*</label>
                     <div class="form-group">
                         <select name="tshirt" id="tshirt">
@@ -89,6 +88,35 @@
                     </div>
 
                     @csrf
+                </div>
+            </div>
+            <div class="row" style="margin-left: 3%;margin-right: 3%">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group" style="text-align: left">
+                        <input type="checkbox" id="consent" name="consent"> I accept the event's <a target="_blank" href="{{route('event.terms')}}">terms & conditions</a>.
+
+                        @if ($errors->has('consent'))
+                            <span class="help-block">
+                                        <strong style="color: red;">{{ $errors->first('consent') }}</strong>
+                                    </span>
+                        @endif
+                    </div>
+                    <div class="form-group" style="text-align: left">
+                        <input type="checkbox" id="gdpr" name="gdpr"> I acknowledge that my application data will be shared with the Organising Committee in order to facilitate various
+                        logistics matters such as food, accommodation and social programme. I also understand that this means my application data may be shared with third parties providing services to
+                        the event such as accommodation, catering and venue (only the minimum required application data will be shared with these third parties). *
+
+
+                        @if ($errors->has('gdpr'))
+                            <span class="help-block">
+                                        <strong style="color: red;">{{ $errors->first('gdpr') }}</strong>
+                                    </span>
+                        @endif
+                    </div>
+                    <p style="text-align: left">By clicking submit, having been informed of the <a target="_blank" href="https://esngreece.gr/privacy-policy">Privacy Policy</a> of Federation of Erasmus Student Network - Greece (hereafter "ESN Greece") who is the Data Controller, I grant ESN
+                        Greece the right to process the Data I provided it with the present, in accordance with the GDPR, for the purpose of communication (receiving updates & AGM-related information
+                        via email or other media). I understand that the consent to the processing of my Data may be revoked by sending an email at <a href="mailto:dpo@esngreece.gr">dpo@esngreece.gr</a></p>
                 </div>
             </div>
             <input type="submit" class="btn btn-success">
