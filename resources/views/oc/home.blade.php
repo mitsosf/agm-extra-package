@@ -34,7 +34,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
+        {{--<div class="col-md-3 col-sm-6 col-xs-12">
             <!-- small box -->
             <a href="#">
                 <div class="small-box bg-yellow">
@@ -49,22 +49,6 @@
                     <div class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></div>
                 </div>
             </a>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <!-- small box -->
-            <a href="#">
-                <div class="small-box bg-fuchsia">
-                    <div class="inner">
-                        <h3>{{$checkedInUsers}}</h3>
-
-                        <p>Checkin ({{$paidUsersCount?round(($checkedInUsers/$paidUsersCount)*100,2):'0'}}%)</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-bed"></i>
-                    </div>
-                    <div class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></div>
-                </div>
-            </a>
-        </div>
+        </div>--}}
     </div>
 @endsection
