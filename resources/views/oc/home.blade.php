@@ -10,7 +10,7 @@
                     <div class="inner">
                         <h3>{{$approvedUsers}}</h3>
 
-                        <p>Paid spots ({{($approvedUsers/$totalUsers)*100}}%)</p>
+                        <p>Paid spots ({{round(($approvedUsers/$totalUsers)*100,2)}}%)</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-users"></i>
@@ -41,7 +41,7 @@
                     <div class="inner">
                         <h3>{{$roomedUsers}}</h3>
 
-                        <p>Rooms ({{$approvedUsers?($roomedUsers/$approvedUsers)*100:'0'}}%)</p>
+                        <p>Rooms ({{$approvedUsers?round(($roomedUsers/$approvedUsers)*100,2):'0'}}%)</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-bar-chart"></i>
@@ -57,7 +57,7 @@
                     <div class="inner">
                         <h3>{{$checkedInUsers}}</h3>
 
-                        <p>Checkin ({{$paidUsersCount?($checkedInUsers/$paidUsersCount)*100:'0'}}%)</p>
+                        <p>Checkin ({{$paidUsersCount?round(($checkedInUsers/$paidUsersCount)*100,2):'0'}}%)</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-bed"></i>
