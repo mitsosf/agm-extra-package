@@ -25,8 +25,7 @@
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3>{{$funds}} €</h3>
-
-                        <p>({{$approvedUsers?($paidUsersCount/$approvedUsers)*100:'0'}}%)</p>
+                        <p> </p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-eur"></i>

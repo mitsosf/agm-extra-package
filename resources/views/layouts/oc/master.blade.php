@@ -86,27 +86,6 @@ desired effect
                         <li><a href="{{route('oc.cashflow.deposits')}}"><i class="fa fa-download"></i> <span>Deposits</span></a></li>
                     </ul>
                 </li>
-
-                {{--Hotels--}}
-                @php
-                    $hotels = App\Hotel::all();
-                @endphp
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-hotel"></i> <span>Check-in</span>
-                        <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        @if($hotels->isNotEmpty())
-                            @foreach($hotels as $hotel)
-                                <li><a href="#"><i class="fa fa-hotel"></i> <span>Check-in {{$hotel->name}}</span></a></li>
-                            @endforeach
-                        @else
-                            <li><a href="#"><span>No available hotels</span></a></li>
-                        @endif
-                    </ul>
-                </li>
                 <li><a href="{{route('oc.logout')}}"><i class="fa fa-power-off"></i> <span>Logout</span></a></li>
             </ul>
             <!-- /.sidebar-menu -->
