@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
             $table->boolean('rooming')->default(false);
             $table->integer('room_id')->unsigned()->nullable();
             $table->string('rooming_comments')->default("")->nullable();
+            $table->boolean('registration')->default(false);
             $table->string('debt')->default("0");   //Money participant owes
             $table->string('checkin')->default("0")->nullable();
             $table->string('spot_status')->default(null)->nullable();

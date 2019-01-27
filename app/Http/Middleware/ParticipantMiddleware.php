@@ -16,6 +16,12 @@ class ParticipantMiddleware
      */
     public function handle($request, Closure $next)
     {
+        $registration = Auth::user()->registration;
+
+
+        if (!$registration){
+            return redirect(route('participant.registration.show'));
+        }
 
         if (isset(Auth::user()->role_id)) {
 

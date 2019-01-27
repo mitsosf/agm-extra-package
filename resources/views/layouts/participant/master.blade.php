@@ -84,8 +84,12 @@ desired effect
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MENU</li>
                 <li><a href="{{route('participant.home')}}"><i class="fa fa-user"></i> <span>Home</span></a></li>
-                <li><a href="{{route('participant.payment')}}"><i class="fa fa-credit-card"></i> <span>Fee Payment</span></a></li>
-                <li><a href="{{route('participant.logout')}}"><i class="fa fa-power-off"></i> <span>Logout</span></a></li>
+                @if(Auth::user()->registration)
+                    <li><a href="{{route('participant.payment')}}"><i class="fa fa-credit-card"></i> <span>Fee Payment</span></a></li>
+                    <li><a href="{{route('participant.logout')}}"><i class="fa fa-power-off"></i> <span>Logout</span></a></li>
+                @else
+                    <li><a href="{{route('participant.nonregistered.logout')}}"><i class="fa fa-power-off"></i> <span>Logout</span></a></li>
+                @endif
             </ul>
             <!-- /.sidebar-menu -->
         </section>

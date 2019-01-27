@@ -37,6 +37,9 @@ Route::get('/', function () {
 Route::get('/login', 'UnauthenticatedController@login')->name('cas.login');
 
 //Participants
+Route::get('/account/registration', 'RegistrationController@registrationShow')->name('participant.registration.show');
+Route::post('/account/registration', 'RegistrationController@registration')->name('participant.registration');
+Route::get('/account/nonregistered/logout', 'RegistrationController@logout')->name('participant.nonregistered.logout');
 Route::get('/account', 'ParticipantController@index')->name('participant.home');
 Route::get('/account/profile', 'ParticipantController@showProfile')->name('profile');
 Route::get('/account/payment', 'ParticipantController@payment')->name('participant.payment');

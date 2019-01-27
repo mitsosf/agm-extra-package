@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Invoice;
+use App\Mail\PaymentConfirmation;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Everypay\Everypay;
 use Everypay\Payment;
 use Everypay\Token;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class ParticipantController extends Controller
@@ -29,7 +33,7 @@ class ParticipantController extends Controller
         $user = Auth::user();
         $error = null;
 
-        $debt = $user->transactions->where('type', 'debt')->where('approved',0)->first();
+        $debt = $user->transactions->where('type', 'debt')->where('approved', 0)->first();
 
         return view('participants.home', compact('user', 'error', 'debt'));
     }
@@ -94,10 +98,10 @@ class ParticipantController extends Controller
         if (isset($token)) {
 
             //Format desc
-            $description = 'Extra: '.$user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
+            $description = 'Extra: ' . $user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
 
             $payment = Payment::create(array(
-                "amount" => 22200, //Amount in cents
+                "amount" => 17000, //Amount in cents
                 "currency" => "eur", //Currency
                 "token" => $token,
                 "description" => $description
@@ -115,8 +119,37 @@ class ParticipantController extends Controller
                 $user->update();
 
                 //Generate PDF invoice, send it to the user and update DB
-                //TODO Serialize
-                //event(new UserPaid($user, $payment->token));
+
+                //Generate PDF
+                $pdf = App::make('dompdf.wrapper');
+                $invID = Invoice::all()->count() + 1;
+                $pdf->loadHTML(view('mails.paymentConfirmation', compact('user', 'invID')));
+
+                //Save invoice locally
+                $path = 'invoices/' . $invID . $user->name . $user->surname . $user->esn_country . 'Fee.pdf';
+                $pdf->save(env('APPLICATION_DEPLOYMENT_PATH_PUBLIC') . $path);
+
+
+                //Save the whole transaction to the database
+                //Create transaction
+                $transaction = new Transaction();
+                $transaction->user()->associate($user);
+                $transaction->amount = $user->fee;
+                $transaction->comments = null;
+                $transaction->approved = true;
+                $transaction->proof = $token;
+                $transaction->save();
+
+                //Create invoice and attach to transaction
+                $invoice = new Invoice();
+                $invoice->path = $path;
+                $invoice->esn_country = $user->esn_country;
+                $invoice->section = $user->section;
+                $invoice->transaction()->associate($transaction);
+                $invoice->save();
+
+                //Send invoice to participant
+                Mail::to($user->email)->send(new PaymentConfirmation($user, env('APPLICATION_DEPLOYMENT_PATH_PUBLIC') . $path));
 
                 //If all goes well and user is charged
                 Session::flash('paid_fee', 1);
@@ -185,7 +218,7 @@ class ParticipantController extends Controller
         if (isset($token)) {
 
             //Format desc
-            $description = 'Extra: Deposit--'.$user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
+            $description = 'Extra: Deposit--' . $user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
 
             $payment = Payment::create(array(
                 "amount" => 5000, //Amount in cents
@@ -205,7 +238,7 @@ class ParticipantController extends Controller
                 //Save deposit to db
                 $deposit = new Transaction();
                 $deposit->type = 'deposit';
-                $deposit->amount = $payment->amount/100;
+                $deposit->amount = $payment->amount / 100;
                 $deposit->approved = 0;
                 $deposit->proof = $payment->token;
                 $deposit->user()->associate($user);
@@ -238,6 +271,7 @@ class ParticipantController extends Controller
     {
 
     }
+
     public function logout()
     {
         Auth::logout();

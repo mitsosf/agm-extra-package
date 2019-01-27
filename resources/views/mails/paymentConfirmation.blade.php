@@ -1,5 +1,5 @@
 <head>
-    <title>{{$user->name." ".$user->surname}} - AGM Thessaloniki Proof of Payment</title>
+    <title>{{$user->name." ".$user->surname}} - AGM Extra Package Proof of Payment</title>
 </head>
 <body>
 <style>
@@ -79,7 +79,7 @@
         </thead>
         <tbody>
         <tr style="border-color: #2E3192">
-            <td style="border-color: #2E3192;text-align: center"><h4>Participation Fee - AGM Thessaloniki 2019</h4>
+            <td style="border-color: #2E3192;text-align: center"><h4>Participation Fee - AGM Extra Package</h4>
             </td>
             <td style="text-align: center">1</td>
             <td style="text-align: center">{{$user->fee}}€</td>

@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\App;
 use Ixudra\Curl\Facades\Curl;
+use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
+
 /**
  * @property mixed id
  * @property string username
@@ -26,6 +28,10 @@ use Ixudra\Curl\Facades\Curl;
  * @property string document
  * @property string phone
  * @property mixed allergies
+ * @property  string esncard
+ * @property  string tshirt
+ * @property  string meal
+ * @property mixed comments
  */
 
 class User extends Authenticatable
@@ -142,6 +148,14 @@ class User extends Authenticatable
         $pdf->loadHTML(view('mails.paymentConfirmation',compact('user', 'invID')));
 
         return $pdf->stream();
+    }
+
+    public function isAlumni(){
+        if ($this->comments === "alumni"){
+            return true;
+        }
+
+        return false;
     }
 
 }

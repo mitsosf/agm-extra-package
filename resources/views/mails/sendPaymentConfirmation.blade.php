@@ -1,6 +1,6 @@
 <p>Dear {{$user->name}},</p>
 
-<p>Congratulations! You are an officially confirmed participant of <b>AGM Thessaloniki 2019</b>! Attached you will find your Proof of Payment. </p>
+<p>Congratulations! You are an officially confirmed participant of <b>AGM Extra package</b>! Attached you will find your Proof of Payment. </p>
 
 <p>You are on track to embark upon one of the biggest, most exciting ESN adventures, one that will give you plenty of moments and memories to cherish for years to come!</p>
 
