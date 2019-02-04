@@ -91,7 +91,7 @@
 @section('css')
     <style>
         #loading-img {
-            background: url("https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp") center center no-repeat;
+            background: url("https://www.hotelnumberfour.com/wp-content/uploads/2017/09/loading.gif") center center no-repeat;
             display: none;
             height: 50px;
             width: 50px;
