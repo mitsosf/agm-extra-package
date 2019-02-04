@@ -91,7 +91,7 @@
 @section('css')
     <style>
         #loading-img {
-            background: url("http://www.chimply.com/images/samples/classic-spinner/animatedEllipse.gif") center center no-repeat;
+            background: url("https://i.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.webp") center center no-repeat;
             display: none;
             height: 50px;
             width: 50px;
