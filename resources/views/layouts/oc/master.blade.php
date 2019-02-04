@@ -17,11 +17,6 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <style>
-        .skin-green .main-header .navbar{
-            background-color: #9f191f!important;
-        }
-    </style>
 </head>
 <!--
 BODY TAG OPTIONS:
