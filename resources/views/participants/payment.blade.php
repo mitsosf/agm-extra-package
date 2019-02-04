@@ -70,6 +70,7 @@
                     </div>
                     <!-- /.box-body -->
                 </div>
+
             </div>
             <!-- /.box -->
             <div class="col-md-4">
@@ -78,36 +79,9 @@
         <div style="background: rgba(34,0,171,0.27); margin-right: 30%;margin-left: 30%;">
 
         </div>
-        <div class="row">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-            <div id="loading-img"></div>
-        </div>
+
         @if($error)
             <h3 style="color: red">{{$error}}</h3>
         @endif
     </div>
-@endsection
-
-@section('css')
-    <style>
-        #loading-img {
-            background: url("https://www.hotelnumberfour.com/wp-content/uploads/2017/09/loading.gif") center center no-repeat;
-            display: none;
-            height: 50px;
-            width: 50px;
-            position: absolute;
-            top: 33%;
-            left: 1%;
-            right: 1%;
-            margin: auto;
-        }
-    </style>
-@endsection
-
-@section('js')
-    <script>
-        $(".everypay-button").click(function () {
-            $("#loading-img").css({"display": "block"});
-        });
-    </script>
 @endsection

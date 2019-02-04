@@ -40,6 +40,16 @@ class ParticipantController extends Controller
 
     public function payment()
     {
+
+        if (env('EVENT_PAYMENTS') == '0') {
+            return redirect(route('participant.home'));
+        }
+
+        $approved_transactions_count = Transaction::where('type','fee')->where('approved','1')->get()->count();
+        if (env('EVENT_LIMIT')-$approved_transactions_count <= 0){
+            return redirect(route('home'));
+        }
+        
         $user = Auth::user();
         $error = null;
 
@@ -56,6 +66,15 @@ class ParticipantController extends Controller
     //TODO reassure the plembs that they have not been charged, if an error occurs
     public function validateCard()
     {
+        if (env('EVENT_PAYMENTS') == '0') {
+            return redirect(route('participant.home'));
+        }
+
+        $approved_transactions_count = Transaction::where('type','fee')->where('approved','1')->get()->count();
+        if (env('EVENT_LIMIT')-$approved_transactions_count <= 0){
+            return redirect(route('home'));
+        }
+
         //Set up the private key
         Everypay::setApiKey(env('EVERYPAY_SECRET_KEY'));
 
@@ -88,6 +107,14 @@ class ParticipantController extends Controller
 
     public function charge()
     {
+        if (env('EVENT_PAYMENTS') == '0') {
+            return redirect(route('participant.home'));
+        }
+
+        $approved_transactions_count = Transaction::where('type','fee')->where('approved','1')->get()->count();
+        if (env('EVENT_LIMIT')-$approved_transactions_count <= 0){
+            return redirect(route('home'));
+        }
         //Set up the private key
         Everypay::setApiKey(env('EVERYPAY_SECRET_KEY'));
         $user = Auth::user();
@@ -101,7 +128,7 @@ class ParticipantController extends Controller
             $description = 'Extra: ' . $user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
 
             $payment = Payment::create(array(
-                "amount" => env('EVENT_FEE','16000'), //Amount in cents
+                "amount" => env('EVENT_FEE', '16000'), //Amount in cents
                 "currency" => "eur", //Currency
                 "token" => $token,
                 "description" => $description
