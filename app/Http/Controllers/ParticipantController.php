@@ -101,7 +101,7 @@ class ParticipantController extends Controller
             $description = 'Extra: ' . $user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
 
             $payment = Payment::create(array(
-                "amount" => 17000, //Amount in cents
+                "amount" => env('EVENT_FEE','16000'), //Amount in cents
                 "currency" => "eur", //Currency
                 "token" => $token,
                 "description" => $description

@@ -52,7 +52,7 @@
                                                 <script type="text/javascript" class="everypay-script"
                                                         src="https://button.everypay.gr/js/button.js"
                                                         data-key="{{env('EVERYPAY_PUBLIC_KEY')}}"
-                                                        data-amount="17000"
+                                                        data-amount="{{env('EVENT_FEE','16000')}}"
                                                         data-locale="en"
                                                         data-description="{{Auth::user()->name.' '.Auth::user()->surname}} - AGM Extra Package - Participation fee"
                                                         @if(env('APP_ENV','production') === 'local')
