@@ -39,6 +39,25 @@
                         <div class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></div>
                     </div>
                 </a>
+                @elseif(Auth::user()->isAlumni() && env('EVENT_PAYMENTS',0))
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <a href="{{route('participant.payment')}}">
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                    <h3>Fee</h3>
+                                    @if($user->spot_status === 'paid')
+                                        <p>You have successfully paid the fee</p>
+                                    @else
+                                        <p>Pay AGM Extra package participation fee</p>
+                                    @endif
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-eur"></i>
+                                </div>
+                                <div class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></div>
+                            </div>
+                        </a>
                 @else
                     <div class="col-md-4"></div>
                     <div class="col-md-4" style="text-align: center">
