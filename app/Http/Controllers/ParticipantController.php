@@ -36,8 +36,8 @@ class ParticipantController extends Controller
         $debt = $user->transactions->where('type', 'debt')->where('approved', 0)->first();
 
         $payments = 0;
-        $approved_transactions_count = Transaction::where('type','fee')->where('approved','1')->get()->count();
-        if (env('EVENT_LIMIT')-$approved_transactions_count > 0){
+        $approved_transactions_count = Transaction::where('type', 'fee')->where('approved', '1')->get()->count();
+        if (env('EVENT_LIMIT') - $approved_transactions_count > 0) {
             $payments = 1;
         }
 
@@ -52,19 +52,35 @@ class ParticipantController extends Controller
             return redirect(route('participant.home'));
         }
 
-        $approved_transactions_count = Transaction::where('type','fee')->where('approved','1')->get()->count();
-        if (env('EVENT_LIMIT')-$approved_transactions_count <= 0){
-            return redirect(route('home'));
-        }
-        
-        $user = Auth::user();
-        $error = null;
+        //If Alumni
+        if (Auth::user()->isAlumni()) {
 
-        $transactions = $user->transactions->where('type', 'fee');
+            $user = Auth::user();
+            $error = null;
 
-        $invoice = null;
-        if ($transactions->count() > 0) {
-            $invoice = $transactions->first()->invoice;
+            $transactions = $user->transactions->where('type', 'fee');
+
+            $invoice = null;
+            if ($transactions->count() > 0) {
+                $invoice = $transactions->first()->invoice;
+            }
+        } else {
+            //If not Alumni
+            $approved_transactions_count = Transaction::where('type', 'fee')->where('approved', '1')->get()->count();
+
+            if (env('EVENT_LIMIT') - $approved_transactions_count <= 0) {
+                return redirect(route('home'));
+            }
+
+            $user = Auth::user();
+            $error = null;
+
+            $transactions = $user->transactions->where('type', 'fee');
+
+            $invoice = null;
+            if ($transactions->count() > 0) {
+                $invoice = $transactions->first()->invoice;
+            }
         }
         return view('participants.payment', compact('user', 'error', 'invoice'));
     }
@@ -77,9 +93,11 @@ class ParticipantController extends Controller
             return redirect(route('participant.home'));
         }
 
-        $approved_transactions_count = Transaction::where('type','fee')->where('approved','1')->get()->count();
-        if (env('EVENT_LIMIT')-$approved_transactions_count <= 0){
-            return redirect(route('home'));
+        $approved_transactions_count = Transaction::where('type', 'fee')->where('approved', '1')->get()->count();
+        if (!Auth::user()->isAlumni()) {
+            if (env('EVENT_LIMIT') - $approved_transactions_count <= 0) {
+                return redirect(route('home'));
+            }
         }
 
         //Set up the private key
@@ -118,9 +136,11 @@ class ParticipantController extends Controller
             return redirect(route('participant.home'));
         }
 
-        $approved_transactions_count = Transaction::where('type','fee')->where('approved','1')->get()->count();
-        if (env('EVENT_LIMIT')-$approved_transactions_count <= 0){
-            return redirect(route('home'));
+        $approved_transactions_count = Transaction::where('type', 'fee')->where('approved', '1')->get()->count();
+        if (!Auth::user()->isAlumni()) {
+            if (env('EVENT_LIMIT') - $approved_transactions_count <= 0) {
+                return redirect(route('home'));
+            }
         }
         //Set up the private key
         Everypay::setApiKey(env('EVERYPAY_SECRET_KEY'));
@@ -169,7 +189,7 @@ class ParticipantController extends Controller
                 $transaction->amount = $user->fee;
                 $transaction->comments = null;
                 $transaction->approved = true;
-                $transaction->proof = $token;
+                $transaction->proof = $payment->token;
                 $transaction->save();
 
                 //Create invoice and attach to transaction
