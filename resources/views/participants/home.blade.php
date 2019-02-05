@@ -20,45 +20,53 @@
         <!-- /.box -->
     @endif
     <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <!-- small box -->
-            <a href="{{route('participant.payment')}}">
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>Fee</h3>
-                        @if($user->spot_status === 'paid')
-                            <p>You have successfully paid the fee</p>
-                        @else
-                            <p>Pay AGM Extra package participation fee</p>
-                        @endif
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-eur"></i>
-                    </div>
-                    <div class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></div>
-                </div>
-            </a>
-        </div>
-        @if(env('EVENT_DEPOSITS',0) == 1)
+        @if($payments || Auth::user()->spot_status == 'paid')
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <!-- small box -->
-                <a href="{{route('participant.deposit')}}">
-                    <div class="small-box bg-yellow">
+                <a href="{{route('participant.payment')}}">
+                    <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>Deposit</h3>
+                            <h3>Fee</h3>
                             @if($user->spot_status === 'paid')
-                                <p>You have successfully paid the deposit</p>
+                                <p>You have successfully paid the fee</p>
                             @else
-                                <p>Pay the event deposit</p>
+                                <p>Pay AGM Extra package participation fee</p>
                             @endif
                         </div>
                         <div class="icon">
-                            <i class="fa fa-lock"></i>
+                            <i class="fa fa-eur"></i>
                         </div>
                         <div class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></div>
                     </div>
                 </a>
+                @else
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4" style="text-align: center">
+                        <h2 style="color: red">We have run out of spots!!</h2>
+                        <img style="max-width: 80%" src="https://www.sorryimages.love/images/quotes/english/general/sorry-not-sorry-52650-13694.jpg" alt="Sorry">
+                    </div>
+                @endif
             </div>
-        @endif
+            @if(env('EVENT_DEPOSITS',0) == 1)
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <!-- small box -->
+                    <a href="{{route('participant.deposit')}}">
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <h3>Deposit</h3>
+                                @if($user->spot_status === 'paid')
+                                    <p>You have successfully paid the deposit</p>
+                                @else
+                                    <p>Pay the event deposit</p>
+                                @endif
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            <div class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></div>
+                        </div>
+                    </a>
+                </div>
+            @endif
     </div>
 @endsection

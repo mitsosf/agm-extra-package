@@ -35,7 +35,14 @@ class ParticipantController extends Controller
 
         $debt = $user->transactions->where('type', 'debt')->where('approved', 0)->first();
 
-        return view('participants.home', compact('user', 'error', 'debt'));
+        $payments = 0;
+        $approved_transactions_count = Transaction::where('type','fee')->where('approved','1')->get()->count();
+        if (env('EVENT_LIMIT')-$approved_transactions_count > 0){
+            $payments = 1;
+        }
+
+
+        return view('participants.home', compact('user', 'error', 'debt', 'payments'));
     }
 
     public function payment()
