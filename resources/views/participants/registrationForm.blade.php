@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="row" style="text-align: center">
+        <div class="row hidden-xl hidden-lg hidden-md hidden-sm">
+            <img src="{{asset('images/event_info.jpg')}}" alt="Event Information" style="max-width:90%;margin-bottom:3%">
+        </div>
+        <div class="row hidden-xs">
+            <img src="{{asset('images/event_info.jpg')}}" alt="Event Information" style="max-width:40%;margin-bottom:3%">
+        </div>
         <h4 style="margin-bottom: 2%">Registration Form:</h4>
         <form action="{{route('participant.registration')}}" method="POST">
             <div class="row">
@@ -119,7 +125,7 @@
                         via email or other media). I understand that the consent to the processing of my Data may be revoked by sending an email at <a href="mailto:dpo@esngreece.gr">dpo@esngreece.gr</a></p>
                 </div>
             </div>
-            <input type="submit" class="btn btn-success">
+            <input type="submit" class="btn btn-success" value="Next step">
 
         </form>
     </div>

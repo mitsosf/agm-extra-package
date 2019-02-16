@@ -6,12 +6,16 @@
         <div class="row" style="padding-top: 3%">
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <div class="box">
+                <div class="box" style="position: relative">
+                    <img style="max-width: 70%;display: none"
+                         src="{{asset('images/loading.gif')}}" id="loading"
+                         alt="Loading">
                     <div class="box-header">
                         <h3 class="box-title">Participant details</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body no-padding">
+
                         <table class="table table-striped">
                             <tr>
                                 <td><b>Name:</b></td>
@@ -35,7 +39,8 @@
                                         @break
 
                                         @case('paid')
-                                        <b style="color: green">Paid <a target="_blank" href="{{route('participant.generateProof')}}">(Proof)</a></b>
+                                        <b style="color: green">Paid <a target="_blank"
+                                                                        href="{{route('participant.generateProof')}}">(Proof)</a></b>
                                         @break
 
                                         @default
@@ -47,12 +52,13 @@
                                 <tr>
                                     <td><b></b></td>
                                     <td>
-                                        <div style="text-align: left">
-                                            <form class="payment-card-form" method="POST" action="{{route('participant.validateCard')}}">
+                                        <div style="text-align: left;position: relative">
+                                            <form class="payment-card-form" method="POST"
+                                                  action="{{route('participant.validateCard')}}">
                                                 <script type="text/javascript" class="everypay-script"
                                                         src="https://button.everypay.gr/js/button.js"
                                                         data-key="{{env('EVERYPAY_PUBLIC_KEY')}}"
-                                                        data-amount="{{env('EVENT_FEE','16000')}}"
+                                                        data-amount="{{env('EVENT_FEE','16200')}}"
                                                         data-locale="en"
                                                         data-description="{{Auth::user()->name.' '.Auth::user()->surname}} - AGM Extra Package - Participation fee"
                                                         @if(env('APP_ENV','production') === 'local')
@@ -76,12 +82,31 @@
             <div class="col-md-4">
             </div>
         </div>
-        <div style="background: rgba(34,0,171,0.27); margin-right: 30%;margin-left: 30%;">
-
-        </div>
 
         @if($error)
             <h3 style="color: red">{{$error}}</h3>
         @endif
+        @if($user->spot_status === 'approved')
+            <div class="row">
+                <h5 id="warning" style="color: red;">Notice: When you enter your card details and pay the fee, please do not close
+                    the window and wait for some seconds :)</h5>
+            </div>
+        @endif
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $(document).delay(2000).ready(function () {
+            $('.payment-card-form').click(function () {
+                $('.table.table-striped').hide();
+                $('.box-header').hide();
+                $('#warning').text('Please don\'t close the window until the payment is approved');
+                $('#loading').show();
+            });
+            /*click(function () {
+
+            });*/
+        });
+    </script>
 @endsection
