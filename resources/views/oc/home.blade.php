@@ -8,9 +8,9 @@
             <a href="{{route('oc.approved')}}">
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>{{$approvedUsers}}</h3>
+                        <h3>{{$paidUsersCount}}</h3>
 
-                        <p>Paid spots ({{round(($approvedUsers/$totalUsers)*100,2)}}%)</p>
+                        <p> ({{round(($paidUsersCount/$totalUsers)*100,2)}}%)</p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-users"></i>

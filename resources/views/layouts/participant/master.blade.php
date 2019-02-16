@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{env('APP_NAME', 'AGM Control Panel')}} | My account</title>
-    <link rel="icon" href="{{asset('images/favicon.ico')}}" type="image/x-icon">
+    <title>{{env('APP_NAME', 'Thessaloniki Castaways')}} | My account</title>
+    <link rel="icon" href="{{asset('images/favico.ico')}}" type="image/x-icon">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -42,7 +42,7 @@ desired effect
 |               | skin-green                              |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-green sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -53,7 +53,7 @@ desired effect
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>AGM</b></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg">AGM Extra Package </span>
+            <span class="logo-lg">AGM Extra Package</span>
         </a>
 
         <!-- Header Navbar -->

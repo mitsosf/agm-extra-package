@@ -30,7 +30,7 @@
                             @if($user->spot_status === 'paid')
                                 <p>You have successfully paid the fee</p>
                             @else
-                                <p>Pay AGM Extra package participation fee</p>
+                                <p>Pay Thessaloniki Castaways participation fee</p>
                             @endif
                         </div>
                         <div class="icon">
@@ -49,7 +49,7 @@
                                     @if($user->spot_status === 'paid')
                                         <p>You have successfully paid the fee</p>
                                     @else
-                                        <p>Pay AGM Extra package participation fee</p>
+                                        <p>Pay Thessaloniki Castaways participation fee</p>
                                     @endif
                                 </div>
                                 <div class="icon">
@@ -61,8 +61,7 @@
                 @else
                     <div class="col-md-4"></div>
                     <div class="col-md-4" style="text-align: center">
-                        <h2 style="color: red">We have run out of spots!!</h2>
-                        <img style="max-width: 80%" src="https://www.sorryimages.love/images/quotes/english/general/sorry-not-sorry-52650-13694.jpg" alt="Sorry">
+                        <img style="max-width: 80%" src="{{asset("images/sorry_castaways.jpg")}}" alt="Sorry">
                     </div>
                 @endif
             </div>

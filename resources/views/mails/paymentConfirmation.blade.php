@@ -1,5 +1,5 @@
 <head>
-    <title>{{$user->name." ".$user->surname}} - AGM Extra Package Proof of Payment</title>
+    <title>{{$user->name." ".$user->surname}} - AGM Extra Package - Proof of Payment</title>
 </head>
 <body>
 <style>
@@ -50,7 +50,7 @@
         <p><b>Tax Ref. no:</b> 997166220</p>
         <p><b>Tax Office:</b> D' Athens</p>
         <br>
-        <p><b>#:</b> AGM-{{$invID}}/2019</p>
+        <p><b>#:</b> Extra-{{$invID}}/2019</p>
     </div>
 
 
