@@ -6,7 +6,7 @@
 
 <p>It feels great, doesn't it?</p>
 
-<p>Now that your place is secured, let us invite you to join the exclusive Telegram Channel of Thessaloniki Castaways which is ONLY for the <b>OFFICIAL PARTICIPANTS!</b></p>
+<p>Now that your place is secured, let us invite you to join the exclusive Telegram Channel of Thessaloniki Castaways.</p>
 
 <p>
 <ol>

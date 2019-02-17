@@ -85,10 +85,21 @@ desired effect
                 <li class="header">MENU</li>
                 <li><a href="{{route('participant.home')}}"><i class="fa fa-user"></i> <span>Home</span></a></li>
                 @if(Auth::user()->registration)
-                    <li><a href="{{route('participant.payment')}}"><i class="fa fa-credit-card"></i> <span>Fee Payment</span></a></li>
-                    <li><a href="{{route('participant.logout')}}"><i class="fa fa-power-off"></i> <span>Logout</span></a></li>
+                    @if(substr(Auth::user()->comments,0,2) === "NR")
+                        <li><a href="{{route('participant.delegation')}}"><i class="fa fa-users"></i> <span>My castaways</span></a>
+                        </li>
+                    @endif
+                    <li><a href="{{route('participant.payment')}}"><i class="fa fa-credit-card"></i>
+                            <span>Fee Payment</span></a></li>
+                    <li><a href="{{route('participant.logout')}}"><i class="fa fa-power-off"></i>
+                            <span>Logout</span></a></li>
                 @else
-                    <li><a href="{{route('participant.nonregistered.logout')}}"><i class="fa fa-power-off"></i> <span>Logout</span></a></li>
+                    @if(substr(Auth::user()->comments,0,2) === "NR")
+                        <li><a href="{{route('participant.delegation')}}"><i class="fa fa-users"></i> <span>My castaways</span></a>
+                        </li>
+                    @endif
+                    <li><a href="{{route('participant.nonregistered.logout')}}"><i class="fa fa-power-off"></i> <span>Logout</span></a>
+                    </li>
                 @endif
             </ul>
             <!-- /.sidebar-menu -->
@@ -102,9 +113,6 @@ desired effect
         <!-- Main content -->
         <section class="content container-fluid">
 
-            <!--------------------------
-              | Your Page Content Here |
-              -------------------------->
             @yield('content')
 
         </section>
@@ -120,7 +128,8 @@ desired effect
                     href="https://www.facebook.com/esnharo/">ESN Haro</a>.
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; {{\Carbon\Carbon::now()->year}} <a href="https://esngreece.gr" target="_blank">ESN Greece</a>.</strong> All rights
+        <strong>Copyright &copy; {{\Carbon\Carbon::now()->year}} <a href="https://esngreece.gr" target="_blank">ESN
+                Greece</a>.</strong> All rights
         reserved.
     </footer>
 </div>

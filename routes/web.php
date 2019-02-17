@@ -49,6 +49,7 @@ Route::get('/account/deposit', 'ParticipantController@deposit')->name('participa
 Route::post('/account/parseToken', 'ParticipantController@parseToken')->name('participant.parseToken');
 Route::get('/account/chargeDeposit', 'ParticipantController@chargeDeposit')->name('participant.deposit.charge');
 Route::get('/account/proof', 'ParticipantController@generateProof')->name('participant.generateProof');
+Route::get('/nr/delegation', 'ParticipantController@delegation')->name('participant.delegation');
 Route::get('/account/logout', 'ParticipantController@logout')->name('participant.logout');
 
 //OC

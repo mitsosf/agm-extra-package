@@ -62,6 +62,14 @@ class UnauthenticatedController extends Controller
         Auth::login($user);//Log the user into Laravel (natively)
         $user->refreshErsStatus();
 
+        //Check if NR
+        if (is_array(cas()->getAttribute('roles'))) {
+            if (in_array('National.nationalRepresentative', cas()->getAttribute('roles'))) {
+                $user->comments = "NR";
+                $user->update();
+            }
+        }
+
 
         $role = $user->role->name;
         switch ($role) {
