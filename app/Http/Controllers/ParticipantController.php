@@ -314,6 +314,17 @@ class ParticipantController extends Controller
         }
     }
 
+    public function delegation(){
+        $user = Auth::user();
+        if (substr($user->comments,0,2) !== "NR"){
+            return redirect(route('participant.home'));
+        }
+
+        $participants = User::where('esn_country',$user->esn_country)->whereIn('spot_status',['paid','approved'])->get();
+
+        return view('participants.delegation', compact('participants'));
+    }
+
     public function generateProof()
     {
         return Auth::user()->generateProof();

@@ -1,5 +1,5 @@
 <head>
-    <title>{{$user->name." ".$user->surname}} - AGM Extra Package - Proof of Payment</title>
+    <title>{{$user->name." ".$user->surname}} - AGM Thessaloniki Castaways - Receipt</title>
 </head>
 <body>
 <style>
@@ -50,7 +50,7 @@
         <p><b>Tax Ref. no:</b> 997166220</p>
         <p><b>Tax Office:</b> D' Athens</p>
         <br>
-        <p><b>#:</b> Extra-{{$invID}}/2019</p>
+        <p><b>#:</b> A-{{$invID}}/2019</p>
     </div>
 
 
@@ -66,7 +66,7 @@
 </div>
 
 <div class="row" style="margin-top: 5%">
-    <h2 style="color: #2E3192;text-align: center"><u>PROOF OF PAYMENT</u></h2>
+    <h2 style="color: #2E3192;text-align: center"><u>RECEIPT</u></h2>
 </div>
 <div class="row">
     <table class="table" border="1" width="100%">
@@ -79,7 +79,7 @@
         </thead>
         <tbody>
         <tr style="border-color: #2E3192">
-            <td style="border-color: #2E3192;text-align: center"><h4>Participation Fee - AGM Extra Package</h4>
+            <td style="border-color: #2E3192;text-align: center"><h4>Participation Fee - AGM Thessaloniki 2019<br>(Reduced fee package)</h4>
             </td>
             <td style="text-align: center">1</td>
             <td style="text-align: center">{{$user->fee}}€</td>
