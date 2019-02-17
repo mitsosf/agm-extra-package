@@ -109,7 +109,7 @@
 
         setInterval(() => {
             $('.everypay-3d-secure-close-btn').click(function () {
-                window.location.replace('{{env('APP_URL')}}');
+                window.location.replace('{{env('APP_URL')}}/account/payment');
             })
         }, 500);
 
