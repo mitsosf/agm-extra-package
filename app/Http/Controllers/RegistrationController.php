@@ -34,11 +34,7 @@ class RegistrationController extends Controller
         $user->esncard = $request['esncard'];
         $user->tshirt = $request['tshirt'];
         $user->facebook = $request['facebook'];
-        if(substr($user->comments,0,2) === "NR"){
-            $user->comments = $user->comments.' - '. $request['comments'];
-        }else{
-            $user->comments = $request['comments'];
-        }
+        $user->rooming_comments = $request['comments'];
         $user->allergies = $request['allergies'];
         $user->meal = $request['meal'];
         $user->registration = true;
