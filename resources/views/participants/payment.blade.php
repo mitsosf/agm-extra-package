@@ -88,7 +88,8 @@
         @endif
         @if($user->spot_status === 'approved')
             <div class="row">
-                <h5 id="warning" style="color: red;">Notice: When you enter your card details and pay the fee, please do not close
+                <h5 id="warning" style="color: red;">Notice: When you enter your card details and pay the fee, please do
+                    not close
                     the window and wait for some seconds :)</h5>
             </div>
         @endif
@@ -104,9 +105,13 @@
                 $('#warning').text('Please don\'t close the window until the payment is approved');
                 $('#loading').show();
             });
-            /*click(function () {
-
-            });*/
         });
+
+        setInterval(() => {
+            $('.everypay-3d-secure-close-btn').click(function () {
+                window.location.replace('{{env('APP_URL')}}');
+            })
+        }, 500);
+
     </script>
 @endsection
