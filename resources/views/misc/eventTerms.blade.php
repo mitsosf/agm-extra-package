@@ -23,7 +23,7 @@
         </ol>
         <p>&nbsp;</p>
         <ol start="4">
-            <li>The registrations shall open on 19th February 2019 and shall close when the event&rsquo;s spots are sold out. After applying to the event through the registration form, the participant shall proceed with the payment as soon as possible. Simply registering to the event does not guarantee a spot to the participant. The registrations &amp; payments flow works under the principle of &lsquo;first come first served&rsquo;. Payment approvals are automatic and there is no need to upload a proof of payment. The deadline for the voluntary cancellation of a participant is on 28th February 2019 at 23:59 CET; from that moment on, the participation fee is not refundable. However, with the permission of the OC the place may be transferred to a third party, who shall then be subject to these Terms and Conditions.</li>
+            <li>The registrations shall open on 19th February 2019 and shall close when the event&rsquo;s spots are sold out. After applying to the event through the registration form, the participant shall proceed with the payment as soon as possible. Simply registering to the event does not guarantee a spot to the participant. The registrations &amp; payments flow works under the principle of &lsquo;first come first served&rsquo;. Payment approvals are automatic and there is no need to upload a proof of payment. The deadline for the voluntary cancellation of a participant is on 9th March 2019 at 23:59 CET; from that moment on, the participation fee is not refundable. However, with the permission of the OC the place may be transferred to a third party, who shall then be subject to these Terms and Conditions.</li>
         </ol>
         <p>&nbsp;</p>
         <ol start="5">
