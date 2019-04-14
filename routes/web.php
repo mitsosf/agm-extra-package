@@ -80,6 +80,16 @@ Route::get('/oc/logout', 'OCController@logout')->name('oc.logout');
 Route::get('/terms', 'MiscController@terms')->name('terms');
 Route::get('/event/terms', 'MiscController@eventterms')->name('event.terms');
 
+//Checkin
+Route::get('/checkin', 'CheckinController@index')->name('checkin.home');
+Route::get('/checkin/hotel/{hotel}', 'CheckinController@hotel')->name('checkin.hotel');
+Route::get('/checkin/hotel/{hotel}/checkin/validate/{user}', 'CheckinController@validation')->name('checkin.validate');
+Route::get('/checkin/hotel/{hotel}/checkin/{user}', 'CheckinController@checkin')->name('checkin.checkin');
+Route::get('/checkin/funds', 'CheckinController@funds')->name('checkin.funds');
+Route::get('/checkin/funds/request/show', 'CheckinController@createDepositPickupRequestShow')->name('checkin.funds.createRequest.show');
+Route::post('/checkin/funds/request', 'CheckinController@createDepositPickupRequest')->name('checkin.funds.createRequest');
+Route::get('/checkin/logout', 'CheckinController@logout')->name('checkin.logout');
+
 
 //Test
 Route::get('/test', 'ParticipantController@test')->name('participant.test');
