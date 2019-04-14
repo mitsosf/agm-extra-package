@@ -167,7 +167,6 @@ class ParticipantController extends Controller
             Session::forget('token');
 
             if (isset($payment->token)) {
-                //TODO Check if transaction is correct
 
                 //Update user info
                 $user->fee = $payment->amount / 100;
@@ -221,10 +220,9 @@ class ParticipantController extends Controller
         }
     }
 
-    //TODO test deposits by card
-
     public function deposit()
     {
+
         $user = Auth::user();
         $error = null;
 
@@ -233,11 +231,8 @@ class ParticipantController extends Controller
          * Not paid = 0
          * Something weird = Whatever
         */
-        //DO NOT DISTURB, the beast will eat you alive
-        $deposit_check = $user->withCount(
-            ['transactions' => function ($query) {
-                $query->where('type', 'deposit');
-            }])->get()[0]->transactions_count;
+
+        $deposit_check = $user->transactions->where("type", "deposit")->count();
 
         return view('participants.deposit', compact('user', 'error', 'deposit_check'));
     }
@@ -249,17 +244,32 @@ class ParticipantController extends Controller
 
         //Get token from submission
         $token = $_POST['everypayToken'];
-
-        //Check if card is not Visa, MasterCard or Maestro
-        $token_details = Token::retrieve($token);
-        $type = $token_details->card->type;
-        if ($type !== 'Visa' && $type !== 'MasterCard' && $type !== 'Maestro') { //Only accept Visa, MasterCard & Maestro
-            $error = 'Your card issuer is unsupported, please use either a Visa, MasterCard or Maestro';
-            $user = Auth::user();
-            return view('participants.home', compact('error', 'user'));
+        $user = Auth::user();
+        if (isset($token)) {
+            //Check if card is not Visa, MasterCard or Maestro
+            $token_details = Token::retrieve($token);
+            if (isset($token_details->card)) {
+                $type = $token_details->card->type;
+                if ($type !== 'Visa' && $type !== 'MasterCard' && $type !== 'Maestro') { //Only accept Visa, MasterCard & Maestro
+                    $error = 'Your card issuer is unsupported, please use either a Visa, MasterCard or Maestro';
+                    $deposit_check = $user->transactions->where("type", "deposit")->count();
+                    return view('participants.home', compact('error', 'user', 'deposit_check'));
+                }
+                //If all works
+                Session::put('token', $token);
+                return redirect(route('participant.deposit.charge'));
+            } else {
+                //If we don't receive the token_details
+                $error = "An error has occurred, please try again (Error 100)";
+                $deposit_check = $user->transactions->where("type", "deposit")->count();
+                return view('participants.deposit', compact('user', 'error', 'deposit_check'));
+            }
         }
-        Session::put('token', $token);
-        return redirect(route('participant.deposit.charge'));
+
+        //If we don't receive a token
+        $error = "An error has occurred, please try again (Error 101)";
+        $deposit_check = $user->transactions->where("type", "deposit")->count();
+        return view('participants.payment', compact('user', 'error', 'deposit_check'));
     }
 
     public function chargeDeposit()
@@ -274,7 +284,7 @@ class ParticipantController extends Controller
         if (isset($token)) {
 
             //Format desc
-            $description = 'Extra: Deposit--' . $user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
+            $description = 'Deposit--' . $user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
 
             $payment = Payment::create(array(
                 "amount" => 5000, //Amount in cents
@@ -286,9 +296,6 @@ class ParticipantController extends Controller
             Session::forget('token');
 
             if (isset($payment->token)) {
-                //TODO Check if transaction is correct
-
-                //Send mail to the user
 
                 //If all goes well and user is charged
                 //Save deposit to db
@@ -296,24 +303,25 @@ class ParticipantController extends Controller
                 $deposit->type = 'deposit';
                 $deposit->amount = $payment->amount / 100;
                 $deposit->approved = 0;
+                $deposit->comments = 'card';
                 $deposit->proof = $payment->token;
                 $deposit->user()->associate($user);
                 $deposit->save();
 
-                //TODO SERIALISE
-                //event(new UserPaidDeposit($user));
 
                 //Display success message on homepage
                 Session::flash('paid_deposit', 1);
                 return redirect(route('participant.home'));
             } else {
-                $error = "An error has occurred, please try again (Error 103)";
-                return view('participants.deposit', compact('user', 'error'));
+                $error = "Your card issuer didn't approve the payment. If this problem persists, please try using a different card (Error 103)";
+                $deposit_check = $user->transactions->where("type", "deposit")->count();
+                return view('participants.deposit', compact('user', 'error', 'deposit_check'));
             }
         } else {
             //If validation succeeds but pre-charging fails
             $error = "An error has occurred, please try again (Error 102)";
-            return view('participants.deposit', compact('user', 'error'));
+            $deposit_check = $user->transactions->where("type", "deposit")->count();
+            return view('participants.deposit', compact('user', 'error', 'deposit_check'));
         }
     }
 
