@@ -287,10 +287,10 @@ class ParticipantController extends Controller
             $description = 'Deposit--' . $user->id . "." . $user->name . " " . $user->surname . "--" . $user->esn_country . "/" . $user->section;
 
             $payment = Payment::create(array(
-                "amount" => 5000, //Amount in cents
+                "amount" => 2000, //Amount in cents
                 "currency" => "eur", //Currency
                 "token" => $token,
-                "description" => $description,
+                "description" => 'Extra: '.$description,
                 "capture" => 0  //Authorize card only
             ));
             Session::forget('token');
@@ -310,7 +310,7 @@ class ParticipantController extends Controller
 
 
                 //Display success message on homepage
-                Session::flash('paid_deposit', 1);
+                Session::flash('paid_fee', 1);
                 return redirect(route('participant.home'));
             } else {
                 $error = "Your card issuer didn't approve the payment. If this problem persists, please try using a different card (Error 103)";

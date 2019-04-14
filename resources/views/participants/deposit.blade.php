@@ -51,7 +51,7 @@
                                                 <script type="text/javascript" class="everypay-script"
                                                         src="https://button.everypay.gr/js/button.js"
                                                         data-key="{{env('EVERYPAY_PUBLIC_KEY')}}"
-                                                        data-amount="5000"
+                                                        data-amount="2000"
                                                         data-locale="en"
                                                         data-description="{{Auth::user()->name.' '.Auth::user()->surname}} - AGM Thessaloniki 2019 - Deposit"
                                                         @if(env('APP_ENV','production') === 'local')
