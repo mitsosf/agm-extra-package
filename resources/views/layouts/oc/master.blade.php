@@ -86,6 +86,7 @@ desired effect
                         <li><a href="{{route('oc.cashflow.deposits')}}"><i class="fa fa-download"></i> <span>Deposits</span></a></li>
                     </ul>
                 </li>
+                <li><a href="{{route('oc.rooming')}}"><i class="fa fa-hotel"></i> <span>Rooming</span></a></li>
                 <li><a href="{{route('oc.logout')}}"><i class="fa fa-power-off"></i> <span>Logout</span></a></li>
             </ul>
             <!-- /.sidebar-menu -->

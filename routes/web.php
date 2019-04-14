@@ -50,6 +50,14 @@ Route::post('/account/parseToken', 'ParticipantController@parseToken')->name('pa
 Route::get('/account/chargeDeposit', 'ParticipantController@chargeDeposit')->name('participant.deposit.charge');
 Route::get('/account/proof', 'ParticipantController@generateProof')->name('participant.generateProof');
 Route::get('/nr/delegation', 'ParticipantController@delegation')->name('participant.delegation');
+Route::get('/account/rooming', 'ParticipantController@rooming')->name('participant.rooming');
+Route::get('/account/rooming/create', 'ParticipantController@createRoomShow')->name('participant.rooming.create.show');
+Route::post('/account/rooming/create', 'ParticipantController@createRoom')->name('participant.rooming.create');
+Route::get('/account/rooming/join', 'ParticipantController@joinRoomShow')->name('participant.rooming.join.show');
+Route::post('/account/rooming/join', 'ParticipantController@joinRoom')->name('participant.rooming.join');
+Route::get('/account/rooming/random', 'ParticipantController@randomRoomShow')->name('participant.rooming.random.show');
+Route::post('/account/rooming/random', 'ParticipantController@randomRoom')->name('participant.rooming.random');
+Route::get('/account/rooming/leave', 'ParticipantController@leaveRoom')->name('participant.rooming.leave');
 Route::get('/account/logout', 'ParticipantController@logout')->name('participant.logout');
 
 //OC
@@ -64,6 +72,8 @@ Route::delete('/oc/cashflow/deposits/refund/{transaction}', 'OCController@refund
 Route::get('/oc/transaction/{transaction}', 'OCController@transaction')->name('oc.transaction.show');
 Route::get('/oc/user/{user}', 'OCController@user')->name('oc.user.show');
 Route::put('/oc/comments/edit', 'OCController@editUserComments')->name('oc.comments.edit');
+Route::get('/oc/rooming', 'OCController@rooming')->name('oc.rooming');
+Route::get('/oc/rooming/room/{room}', 'OCController@showRoom')->name('oc.room.show');
 Route::get('/oc/logout', 'OCController@logout')->name('oc.logout');
 
 //Misc

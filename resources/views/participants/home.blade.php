@@ -58,33 +58,48 @@
                                 <div class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></div>
                             </div>
                         </a>
-                @else
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4" style="text-align: center">
-                        <img style="max-width: 80%" src="{{asset("images/sorry_castaways.jpg")}}" alt="Sorry">
+                        @else
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4" style="text-align: center">
+                                <img style="max-width: 80%" src="{{asset("images/sorry_castaways.jpg")}}" alt="Sorry">
+                            </div>
+                        @endif
                     </div>
-                @endif
-            </div>
-            @if(env('EVENT_DEPOSITS',0) == 1)
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <!-- small box -->
-                    <a href="{{route('participant.deposit')}}">
-                        <div class="small-box bg-yellow">
-                            <div class="inner">
-                                <h3>Deposit</h3>
-                                @if($user->spot_status === 'paid')
-                                    <p>You have successfully paid the deposit</p>
-                                @else
-                                    <p>Pay the event deposit</p>
-                                @endif
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <!-- small box -->
+                        <a href="{{route('participant.rooming')}}">
+                            <div class="small-box bg-green">
+                                <div class="inner">
+                                    <h3>Rooming</h3>
+                                    <p>Find roommates</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-hotel"></i>
+                                </div>
+                                <div class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></div>
                             </div>
-                            <div class="icon">
-                                <i class="fa fa-lock"></i>
-                            </div>
-                            <div class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></div>
+                        </a>
+                    </div>
+                    @if(env('EVENT_DEPOSITS',0) == 1)
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <!-- small box -->
+                            <a href="{{route('participant.deposit')}}">
+                                <div class="small-box bg-yellow">
+                                    <div class="inner">
+                                        <h3>Deposit</h3>
+                                        @if($user->spot_status === 'paid')
+                                            <p>You have successfully paid the deposit</p>
+                                        @else
+                                            <p>Pay the event deposit</p>
+                                        @endif
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fa fa-lock"></i>
+                                    </div>
+                                    <div class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></div>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-            @endif
-    </div>
+                    @endif
+            </div>
 @endsection
