@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Invoice;
 use App\Mail\PaymentConfirmation;
+use App\Room;
+use App\Roomsize;
 use App\Transaction;
 use App\User;
 use Carbon\Carbon;
 use Everypay\Everypay;
 use Everypay\Payment;
 use Everypay\Token;
+use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -314,13 +317,14 @@ class ParticipantController extends Controller
         }
     }
 
-    public function delegation(){
+    public function delegation()
+    {
         $user = Auth::user();
-        if (substr($user->comments,0,2) !== "NR"){
+        if (substr($user->comments, 0, 2) !== "NR") {
             return redirect(route('participant.home'));
         }
 
-        $participants = User::where('esn_country',$user->esn_country)->whereIn('spot_status',['paid','approved'])->get();
+        $participants = User::where('esn_country', $user->esn_country)->whereIn('spot_status', ['paid', 'approved'])->get();
 
         return view('participants.delegation', compact('participants'));
     }
@@ -331,12 +335,271 @@ class ParticipantController extends Controller
     }
 
 
-    public function test()
+    public function rooming()
     {
+        if (env('EVENT_ROOMING') == '0') {
+
+        }
+
+        if (Auth::user()->spot_status !== 'paid') {
+            return redirect(route('home'));
+        }
+
+        $roomIsFinal = false;
+        $user = Auth::user();
+
+        $room = 0;
+
+        if (isset($user->room)) {
+            $room = $user->room;
+            if ($room->final) {
+                $roomIsFinal = true;
+            }
+
+            $roommates = User::where('room_id', $room->id)->get();
+        }
+
+
+        return view('participants.rooming', compact('room', 'roomIsFinal', 'roommates'));
+    }
+
+    public function createRoomShow()
+    {
+
+        if (env('EVENT_ROOMING') == '0') {
+            return redirect(route('participant.home'));
+        }
+
+        if (Auth::user()->spot_status !== 'paid') {
+            return redirect(route('home'));
+        }
+        $user = Auth::user();
+
+        //Compute available bed sizes
+        $beds = array();
+        $roomSizes = Roomsize::where('hotel_id', 1)->get();
+
+        foreach ($roomSizes as $roomSize) {
+            $occupied_rooms_count = Room::where('hotel_id', 1)->where('beds', $roomSize->size)->where('final', 1)->get()->count();
+            if ($occupied_rooms_count < $roomSize->quantity) {
+                array_push($beds, $roomSize->size);
+            }
+        }
+
+        if (is_null($user->room)) {
+            return view('participants.createRoom', compact('user', 'beds'));
+        }
+
+        return redirect(route('participant.rooming'));
 
     }
 
-    public function logout()
+    public function createRoom(Request $request)
+    {
+
+        if (env('EVENT_ROOMING') == '0') {
+            return redirect(route('participant.home'));
+        }
+
+        if (Auth::user()->spot_status !== 'paid') {
+            return redirect(route('home'));
+        }
+        $size = $request['size'];
+        $comments = $request['comments'];
+
+        //Check if user has room
+        $user = Auth::user();
+        if (is_null($user->room_id)) {
+            //Check to see if roomsize is still available
+            $total_rooms = Roomsize::where('hotel_id', 1)->where('size', $size)->first()->quantity;
+            $occupied_rooms = Room::where('hotel_id', 1)->where('final', 1)->where('beds', $size)->get()->count();
+
+            if ($occupied_rooms >= $total_rooms) {
+
+                Session::flash('error', 'Roomsize not available');
+                return redirect(route('participant.rooming'));
+            }
+
+            //Create room
+            $room = new Room();
+            $room->hotel_id = 1;
+            $room->beds = $size;
+            $room->code = rand(111111, 999999);
+            $room->save();
+
+            $user->room_id = $room->id;
+            $user->rooming = 1;
+            $user->rooming_comments = 'ROOMING-' . $comments . '-' . $user->rooming_comments;
+            $user->update();
+
+            return redirect(route('participant.rooming'));
+
+        } else {
+            Session::flash('error', 'User already has room');
+            return redirect(route('participant.rooming'));
+        }
+    }
+
+    public function joinRoomShow()
+    {
+
+        if (env('EVENT_ROOMING') == '0') {
+            return redirect(route('participant.home'));
+        }
+
+        if (Auth::user()->spot_status !== 'paid') {
+            return redirect(route('home'));
+        }
+        $user = Auth::user();
+
+        if (is_null($user->room)) {
+            return view('participants.joinRoom', compact('user'));
+        }
+
+        return redirect(route('participant.rooming'));
+    }
+
+    public function joinRoom(Request $request)
+    {
+
+        if (env('EVENT_ROOMING') == '0') {
+            return redirect(route('participant.home'));
+        }
+
+        if (Auth::user()->spot_status !== 'paid') {
+            return redirect(route('home'));
+        }
+        $id = $request['id'];
+        $code = $request['code'];
+
+        //Check if participant is already in a room
+        $user = Auth::user();
+        if (!is_null($user->room_id)) {
+            Session::flash('error', 'You already have a room');
+            return redirect(route('participant.rooming'));
+        }
+
+        //Check if room exists
+        $room = Room::find($id);
+        if (isset($room)) {
+            //Check if room is full
+            if (!$room->final) {
+                //Check if code is correct
+                if ($room->code === $code) {
+                    //Register participant in the room
+                    $user->room_id = $id;
+                    $user->rooming = 1;
+                    $user->update();
+
+                    //Check if the room is now full
+                    $count = User::where('room_id', $id)->get()->count();
+                    if ($count == $room->beds) {
+                        $room->final = true;
+                        $room->update();
+
+                        //Check if final room of this size
+                        $beds = $room->beds;
+                        $fullRoomCount = Room::where('hotel_id', 1)->where('beds', $beds)->where('final', '1')->get()->count();
+                        $availableRoomCount = Roomsize::where('hotel_id', 1)->where('size', $beds)->first()->quantity;
+
+                        //If the room in question is actually the last of its kind in this hotel, delete all similar rooms and disassociate users
+                        if ($fullRoomCount >= $availableRoomCount) {
+                            $pendingRooms = Room::where('hotel_id', 1)->where('beds', $beds)->where('final', 0)->get();
+                            foreach ($pendingRooms as $room) {
+                                //Nullify all participants' rooming and then delete the room
+                                $occupants = User::where('room_id', $room->id)->get();
+
+                                //Reset participants
+                                foreach ($occupants as $occupant) {
+                                    $occupant->room_id = null;
+                                    $occupant->rooming = 0;
+                                    $occupant->update();
+                                    //TODO maybe notify users via email in the future
+                                    Mail::raw('The room you created has been unfortunately been deleted. This is because as all the rooms of that size that were initially available have been filled by other participants before you managed to fill yours. We would like to ask you to please create another room of a different size or join a vacant room. See you soon in Thessaloniki!', function ($message) use ($occupant) {
+                                        $message->subject('Thessaloniki Castaways Rooming platform')->to($occupant->email);
+                                    });
+                                }
+
+                                //Delete room
+                                $room->delete();
+                            }
+                        }
+                    }
+
+                    return redirect(route('participant.rooming'));
+                } else {
+                    Session::flash('error', 'Incorrect room code');
+                    return redirect(route('participant.rooming'));
+                }
+            } else {
+                Session::flash('error', 'Room is full');
+                return redirect(route('participant.rooming'));
+            }
+        } else {
+            Session::flash('error', 'Room doesn\'t exist');
+            return redirect(route('participant.rooming'));
+        }
+    }
+
+    public
+    function randomRoomShow()
+    {
+
+        if (env('EVENT_ROOMING') == '0') {
+            return redirect(route('participant.home'));
+        }
+
+        if (Auth::user()->spot_status !== 'paid') {
+            return redirect(route('home'));
+        }
+        $user = Auth::user();
+
+        if (is_null($user->room)) {
+            return view('participants.randomRoom', compact('user'));
+        }
+
+        return redirect(route('participant.rooming'));
+    }
+
+    public
+    function randomRoom(Request $request)
+    {
+
+        if (env('EVENT_ROOMING') == '0') {
+            return redirect(route('participant.home'));
+        }
+
+        if (Auth::user()->spot_status !== 'paid') {
+            return redirect(route('home'));
+        }
+        $comments = $request['comments'];
+
+        $user = Auth::user();
+        $user->rooming_comments = 'RANDOM-' . $comments . '-' . $user->rooming_comments;
+        $user->rooming = 1;
+        $user->update();
+        return redirect(route('participant.rooming'));
+    }
+
+    public function leaveRoom(){
+
+        $user = Auth::user();
+        $user->rooming = 0;
+        if (substr($user->rooming_comments,0,6) == "RANDOM"){
+            //Random room
+            $user->rooming_comments = $str = substr($user->rooming_comments, 8);
+        }else{
+            $user->room_id = null;
+        }
+
+        $user->update();
+        Session::flash('error','You have left the room');
+
+        return redirect(route('participant.rooming'));
+    }
+
+    public
+    function logout()
     {
         Auth::logout();
         return redirect(route('home'));

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Room;
+use App\Roomsize;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
@@ -50,7 +52,7 @@ class OCController extends Controller
 
     public function approved()
     {
-        $users = User::where('spot_status', 'approved')->orWhere('spot_status', 'paid')->get();
+        $users = User::where('spot_status', 'paid')->get();
 
         return view('oc.approved', compact('users'));
     }
@@ -141,6 +143,39 @@ class OCController extends Controller
         $user->update();
 
         return redirect(route('oc.user.show', $user));
+    }
+
+    public function rooming(){
+
+        $roomSizes = Roomsize::where('hotel_id',1)->get();
+        $keys = array();
+        foreach ($roomSizes as $roomSize) {
+            array_push($keys, $roomSize->size);
+        }
+        $occupiedBeds = array_fill_keys($keys, 0);
+
+        $rooms = Room::where('hotel_id',1)->orderBy('final','DESC')->get();
+        $finalRooms = Room::where('hotel_id',1)->where('final',1)->get();
+        foreach ($finalRooms as $room){
+            $occupiedBeds[$room->beds]++;
+        }
+
+        $availableBeds = array_fill_keys($keys, 0);
+        foreach ($roomSizes as $roomSize){
+            $availableBeds[$roomSize->size] = $roomSize->quantity;
+        }
+
+        return view('oc.rooming',compact('occupiedBeds', 'availableBeds', 'rooms'));
+    }
+
+    public function showRoom(Room $room){
+        $roommates = User::where('room_id',$room->id)->get();
+
+        return view('oc.showRoom', compact('roommates', 'room'));
+    }
+
+    public function updateInvoiceNumbers(){
+
     }
 
     public function logout()

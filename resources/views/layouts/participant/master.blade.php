@@ -86,18 +86,26 @@ desired effect
                 <li><a href="{{route('participant.home')}}"><i class="fa fa-user"></i> <span>Home</span></a></li>
                 @if(Auth::user()->registration)
                     @if(substr(Auth::user()->comments,0,2) === "NR")
-                        <li><a href="{{route('participant.delegation')}}"><i class="fa fa-users"></i> <span>My castaways</span></a>
+                        <li><a href="{{route('participant.delegation')}}"><i class="fa fa-users"></i>
+                                <span>My castaways</span></a>
                         </li>
                     @endif
                     <li><a href="{{route('participant.payment')}}"><i class="fa fa-credit-card"></i>
                             <span>Fee Payment</span></a></li>
+                    @if(Auth::user()->fee != 0)
+                            <li><a href="{{route('participant.rooming')}}"><i class="fa fa-hotel"></i> <span>Rooming</span></a></li>
+                    @endif()
                     <li><a href="{{route('participant.logout')}}"><i class="fa fa-power-off"></i>
                             <span>Logout</span></a></li>
                 @else
                     @if(substr(Auth::user()->comments,0,2) === "NR")
-                        <li><a href="{{route('participant.delegation')}}"><i class="fa fa-users"></i> <span>My castaways</span></a>
+                        <li><a href="{{route('participant.delegation')}}"><i class="fa fa-users"></i>
+                                <span>My castaways</span></a>
                         </li>
                     @endif
+                    @if(Auth::user()->fee != 0)
+                            <li><a href="{{route('participant.rooming')}}"><i class="fa fa-hotel"></i> <span>Rooming</span></a></li>
+                    @endif()
                     <li><a href="{{route('participant.nonregistered.logout')}}"><i class="fa fa-power-off"></i> <span>Logout</span></a>
                     </li>
                 @endif
