@@ -11,8 +11,6 @@
                     <th>Country</th>
                     <th>Paid</th>
                     <th class="hidden-xs">Room</th>
-                    <th class="hidden-xs">Check-in</th>
-                    <th class="hidden-xs">Date</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,14 +33,8 @@
                         @if($user->rooming == 0)
                             <td style="text-align: center" class="hidden-xs"><span class="label label-danger">No</span></td>
                         @else
-                            <td style="text-align: center" class="hidden-xs"><span class="label label-success">{{$user->rooming}}</span></td>
+                            <td style="text-align: center" class="hidden-xs"><span class="label label-success">{{$user->room->actual}}</span></td>
                         @endif
-                        @if($user->checkin == 0)
-                            <td style="text-align: center" class="hidden-xs"><span class="label label-danger">No</span></td>
-                        @else
-                            <td style="text-align: center" class="hidden-xs"><span class="label label-success">Yes</span></td>
-                        @endif
-                        <td class="hidden-xs">{{\Carbon\Carbon::createFromTimeString($user->created_at)->diffForHumans()}}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -52,8 +44,6 @@
                     <th>Country</th>
                     <th>Paid</th>
                     <th class="hidden-xs">Room</th>
-                    <th class="hidden-xs">Check-in</th>
-                    <th class="hidden-xs">Date</th>
                 </tr>
                 </tfoot>
             </table>

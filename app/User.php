@@ -32,6 +32,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
  * @property  string tshirt
  * @property  string meal
  * @property mixed comments
+ * @property int checkin
  */
 
 class User extends Authenticatable

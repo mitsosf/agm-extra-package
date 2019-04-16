@@ -37,7 +37,7 @@
     @elseif($roomIsFinal)
         <div style="text-align: center;margin-bottom: auto">
             <h3>Rooming Platform</h3>
-            <p>Your room preference is registered</p>
+            <p>Your room number is: <b style="color: green; font-size: medium">{{Auth::user()->room->actual}}</b></p>
             The current occupants of this room are:
             <div class="container">
                 <table id="example2" class="table table-bordered table-hover">

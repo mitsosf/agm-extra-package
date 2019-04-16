@@ -65,7 +65,7 @@
                         <td style="width: 20%;text-align: center"><a href="{{route('oc.room.show',$room)}}">Room {{$room->id}}</a>
                         </td>
                         <td>
-                            <div style="text-align: center">#</div>
+                            <div style="text-align: center">{{$room->actual}}</div>
                         </td>
                         <td>
                             <div style="text-align: center">{{$room->hotel->name}}</div>
